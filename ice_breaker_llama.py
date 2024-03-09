@@ -1,9 +1,13 @@
 from dotenv import load_dotenv
 import os
-from langchain_openai import ChatOpenAI
 from langchain_core.prompts import PromptTemplate
 from langchain.chains import LLMChain
+from os.path import expanduser
+from langchain.callbacks.manager import CallbackManager
+from langchain.callbacks.streaming_stdout import StreamingStdOutCallbackHandler
 
+
+from langchain_community.llms import LlamaCpp
 
 if __name__ == "__main__":
     print("Hello LangChain")
@@ -23,8 +27,18 @@ if __name__ == "__main__":
 
     summary_prompt_template = PromptTemplate(input_variables=["information"], template= summary_template)
 
-    llm = ChatOpenAI(temperature=0, model_name="gpt-3.5-turbo")
 
+    callback_manager = CallbackManager([StreamingStdOutCallbackHandler()])
+    model_path = expanduser("~/Downloads/llama-2-7b-chat.Q4_0.gguf")
+
+    llm = LlamaCpp(
+        model_path=model_path,
+        temperature=0.75,
+        max_tokens=2000,
+        top_p=1,
+        callback_manager=callback_manager,
+        verbose=True,
+    )
 
     chain = LLMChain(llm=llm, prompt=summary_prompt_template)
 
