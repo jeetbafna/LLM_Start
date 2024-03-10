@@ -25,8 +25,9 @@ if __name__ == "__main__":
     2. Two interesting facts about them
     """
 
-    summary_prompt_template = PromptTemplate(input_variables=["information"], template= summary_template)
-
+    summary_prompt_template = PromptTemplate(
+        input_variables=["information"], template=summary_template
+    )
 
     callback_manager = CallbackManager([StreamingStdOutCallbackHandler()])
     model_path = expanduser("~/Downloads/llama-2-7b-chat.Q4_0.gguf")

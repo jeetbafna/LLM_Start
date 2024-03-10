@@ -19,10 +19,13 @@ if __name__ == "__main__":
     2. Two interesting facts about them
     """
 
-    summary_prompt_template = PromptTemplate(input_variables=["information"], template= summary_template)
+    summary_prompt_template = PromptTemplate(
+        input_variables=["information"], template=summary_template
+    )
 
-    llm=HuggingFaceHub(repo_id="bigscience/bloom", model_kwargs={"temperature":1e-10})
-
+    llm = HuggingFaceHub(
+        repo_id="bigscience/bloom", model_kwargs={"temperature": 1e-10}
+    )
 
     chain = LLMChain(llm=llm, prompt=summary_prompt_template)
 
