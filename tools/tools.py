@@ -1,5 +1,6 @@
 from langchain.serpapi import SerpAPIWrapper
 
+
 class CustomSerpAPIWrapper(SerpAPIWrapper):
     def __init__(self):
         super(CustomSerpAPIWrapper, self).__init__()
@@ -34,6 +35,7 @@ class CustomSerpAPIWrapper(SerpAPIWrapper):
         else:
             toret = "No good search result found"
         return toret
+
 
 def get_profile_url(text: str) -> str:
     """ "Searches for LinkedIn Profile Page"""

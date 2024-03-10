@@ -11,6 +11,8 @@ openai = "*"
 llama-cpp-python = "*"
 langchain-openai = "*"
 huggingface-hub = "*"
+langchainhub = "*"
+google-search-results = "*"
 
 [dev-packages]
 
