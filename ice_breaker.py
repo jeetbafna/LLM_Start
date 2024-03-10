@@ -34,4 +34,4 @@ if __name__ == "__main__":
 
     linkedin_data = scrape_linkedin_profile(linkedin_profile_url="eden-marco")
 
-    print(chain.run(information=linkedin_data))
+    print(chain.invoke(information=linkedin_data))
