@@ -5,7 +5,8 @@ from langchain_core.prompts import PromptTemplate
 from langchain.chains import LLMChain
 from third_parties.linkedin import scrape_linkedin_profile
 from agents.linkedin_lookup_agent import lookup as linkedin_lookup_agent
-
+from third_parties.twitter import scrape_user_tweets
+name = "Jeet Bafna"
 if __name__ == "__main__":
     print("Hello LangChain")
     load_dotenv()
@@ -33,8 +34,10 @@ if __name__ == "__main__":
     # res = chain.invoke(input={"information": information})
     #
     # print(res)
-    linkedin_profile_url = linkedin_lookup_agent(name="Jeet Bafna")
+    linkedin_profile_url = linkedin_lookup_agent(name=name)
     print(linkedin_profile_url)
     linkedin_data = scrape_linkedin_profile(linkedin_profile_url="eden-marco")
+    twitter_username = twitter_lookup_agent(name=name)
+    tweets = scrape_user_tweets(username="@jeetbafna")
 
     print(chain.invoke(information=linkedin_data))

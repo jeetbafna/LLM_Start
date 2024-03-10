@@ -3,6 +3,7 @@ from datetime import datetime, timezone
 import logging
 from dotenv import load_dotenv
 import tweepy
+
 load_dotenv()
 logger = logging.getLogger("twitter")
 
@@ -16,13 +17,14 @@ auth.set_access_token(
 
 api = tweepy.API(auth)
 
+
 def scrape_user_tweets(username, num_tweets=5):
     """
     Scrapes a Twitter user's original tweets (i.e., not retweets or replies) and returns them as a list of dictionaries.
     Each dictionary has three fields: "time_posted"(relative to now), "text", and "url".
     """
 
-    tweets = api.user_timeline(screen_name = username, count =num_tweets)
+    tweets = api.user_timeline(screen_name=username, count=num_tweets)
 
     tweet_list = []
 
@@ -33,9 +35,9 @@ def scrape_user_tweets(username, num_tweets=5):
                 datetime.now(timezone.utc) - tweet.created_at
             )
             tweet_dict["text"] = tweet.text
-            tweet_dict[
-                "url"
-            ] = f"https://twitter.com/{tweet.suer.screen_name}/status/{tweet.id}"
+            tweet_dict["url"] = (
+                f"https://twitter.com/{tweet.suer.screen_name}/status/{tweet.id}"
+            )
             tweet_list.append(tweet_dict)
 
     return tweet_list
