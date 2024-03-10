@@ -23,6 +23,8 @@ if __name__ == "__main__":
     Given the LinkedIn information {information} about a person I want you to create:
     1. A short summary
     2. Two interesting facts about them
+    3. A topic that may interest them
+    4. 2 creative Ice breakers to open a conversation with them
     """
 
     # summary_template = """
@@ -45,13 +47,14 @@ if __name__ == "__main__":
     # res = chain.invoke(input={"information": information})
     #
     # print(res)
-    linkedin_profile_url = linkedin_lookup_agent(name=name)
-    print(linkedin_profile_url)
+    # linkedin_profile_url = linkedin_lookup_agent(name=name)
+    # print(linkedin_profile_url)
     linkedin_data = scrape_linkedin_profile(linkedin_profile_url="jeet bafna")
     # twitter_username = twitter_lookup_agent(name=name)
     # tweets = scrape_user_tweets(username=twitter_username)
     # print(twitter_username)
     # print(tweets)
 
-    # print(chain.invoke(linkedin_information=linkedin_data, twitter_information=tweets))
-    print(chain.invoke(information=linkedin_data))
+    # print(chain.invoke(input={"linkedin_information": linkedin_data, twitter_information=tweets))
+    output = chain.invoke(input={"information": linkedin_data})
+    print(output["text"])
