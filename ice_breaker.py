@@ -1,5 +1,6 @@
 from dotenv import load_dotenv
 import os
+from typing import Tuple
 from langchain_openai import ChatOpenAI
 from langchain_core.prompts import PromptTemplate
 from langchain.chains import LLMChain
@@ -7,12 +8,12 @@ from third_parties.linkedin import scrape_linkedin_profile
 from agents.linkedin_lookup_agent import lookup as linkedin_lookup_agent
 from agents.twitter_lookup_agent import lookup as twitter_lookup_agent
 from third_parties.twitter import scrape_user_tweets
-from output_parsers import person_intel_parser
+from output_parsers import person_intel_parser, PersonIntel
 
 name = "Jeet Bafna"
 
 
-def ice_break(name: str) -> str:
+def ice_break(name: str) -> Tuple[PersonIntel, str]:
     # information = """
     # Elon Reeve Musk (/ˈiːlɒn/; EE-lon; born June 28, 1971) is a businessman and investor. He is the founder, chairman, CEO, and CTO of SpaceX; angel investor, CEO, product architect, and former chairman of Tesla, Inc.; owner, executive chairman, and CTO of X Corp.; founder of the Boring Company and xAI; co-founder of Neuralink and OpenAI; and president of the Musk Foundation. He is one of the wealthiest people in the world, with an estimated net worth of US$213 billion as of February 2024, according to the Bloomberg Billionaires Index, and $210 billion according to Forbes, primarily from his ownership stakes in Tesla and SpaceX.[5][6]
     #
@@ -62,9 +63,9 @@ def ice_break(name: str) -> str:
 
     # print(chain.invoke(input={"linkedin_information": linkedin_data, twitter_information=tweets))
     output = chain.invoke(input={"information": linkedin_data})
-    print(output)
-    print(output["text"])
-    return person_intel_parser.parse(output["text"])
+    return person_intel_parser.parse(output["text"]), linkedin_data.get(
+        "profile_pic_url"
+    )
 
 
 if __name__ == "__main__":
