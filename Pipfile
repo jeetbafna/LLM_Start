@@ -13,6 +13,7 @@ langchain-openai = "*"
 huggingface-hub = "*"
 langchainhub = "*"
 google-search-results = "*"
+tweepy = "*"
 
 [dev-packages]
 
