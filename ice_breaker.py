@@ -7,12 +7,12 @@ from third_parties.linkedin import scrape_linkedin_profile
 from agents.linkedin_lookup_agent import lookup as linkedin_lookup_agent
 from agents.twitter_lookup_agent import lookup as twitter_lookup_agent
 from third_parties.twitter import scrape_user_tweets
+from output_parsers import person_intel_parser
 
 name = "Jeet Bafna"
-if __name__ == "__main__":
-    print("Hello LangChain")
-    load_dotenv()
 
+
+def ice_break(name: str) -> str:
     # information = """
     # Elon Reeve Musk (/ˈiːlɒn/; EE-lon; born June 28, 1971) is a businessman and investor. He is the founder, chairman, CEO, and CTO of SpaceX; angel investor, CEO, product architect, and former chairman of Tesla, Inc.; owner, executive chairman, and CTO of X Corp.; founder of the Boring Company and xAI; co-founder of Neuralink and OpenAI; and president of the Musk Foundation. He is one of the wealthiest people in the world, with an estimated net worth of US$213 billion as of February 2024, according to the Bloomberg Billionaires Index, and $210 billion according to Forbes, primarily from his ownership stakes in Tesla and SpaceX.[5][6]
     #
@@ -20,11 +20,12 @@ if __name__ == "__main__":
     # """
     #
     summary_template = """
-    Given the LinkedIn information {information} about a person I want you to create:
-    1. A short summary
-    2. Two interesting facts about them
-    3. A topic that may interest them
-    4. 2 creative Ice breakers to open a conversation with them
+        Given the LinkedIn information {information} about a person I want you to create:
+        1. A short summary
+        2. Two interesting facts about them
+        3. A topic that may interest them
+        4. 2 creative Ice breakers to open a conversation with them
+        \n{format_instructions}
     """
 
     # summary_template = """
@@ -37,7 +38,11 @@ if __name__ == "__main__":
     #     input_variables=["linkedin_information", "twitter_information"], template=summary_template
     # )
     summary_prompt_template = PromptTemplate(
-        input_variables=["information"], template=summary_template
+        input_variables=["information"],
+        template=summary_template,
+        partial_variables={
+            "format_instructions": person_intel_parser.get_format_instructions()
+        },
     )
 
     llm = ChatOpenAI(temperature=0, model_name="gpt-3.5-turbo")
@@ -57,4 +62,12 @@ if __name__ == "__main__":
 
     # print(chain.invoke(input={"linkedin_information": linkedin_data, twitter_information=tweets))
     output = chain.invoke(input={"information": linkedin_data})
+    print(output)
     print(output["text"])
+    return person_intel_parser.parse(output["text"])
+
+
+if __name__ == "__main__":
+    print("Hello LangChain")
+    load_dotenv()
+    ice_break(name)
