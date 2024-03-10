@@ -25,6 +25,15 @@ if __name__ == "__main__":
     2. Two interesting facts about them
     """
 
+    # summary_template = """
+    #     Given the LinkedIn information {linkedin_information} and twitter {twitter_information} about a person I want you to create:
+    #     1. A short summary
+    #     2. Two interesting facts about them
+    # """
+
+    # summary_prompt_template = PromptTemplate(
+    #     input_variables=["linkedin_information", "twitter_information"], template=summary_template
+    # )
     summary_prompt_template = PromptTemplate(
         input_variables=["information"], template=summary_template
     )
@@ -38,10 +47,11 @@ if __name__ == "__main__":
     # print(res)
     linkedin_profile_url = linkedin_lookup_agent(name=name)
     print(linkedin_profile_url)
-    linkedin_data = scrape_linkedin_profile(linkedin_profile_url="eden-marco")
-    twitter_username = twitter_lookup_agent(name=name)
-    tweets = scrape_user_tweets(username=twitter_username)
-    print(twitter_username)
-    print(tweets)
+    linkedin_data = scrape_linkedin_profile(linkedin_profile_url="jeet bafna")
+    # twitter_username = twitter_lookup_agent(name=name)
+    # tweets = scrape_user_tweets(username=twitter_username)
+    # print(twitter_username)
+    # print(tweets)
 
+    # print(chain.invoke(linkedin_information=linkedin_data, twitter_information=tweets))
     print(chain.invoke(information=linkedin_data))
