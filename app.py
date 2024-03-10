@@ -4,6 +4,11 @@ from ice_breaker import ice_break
 app = Flask(__name__)
 
 
+@app.route("/")
+def index():
+    return render_template("index.html")
+
+
 @app.route("/process", methods=["POST"])
 def process():
     name = request.form["name"]
@@ -20,4 +25,6 @@ def process():
 
 
 if __name__ == "__main__":
-    app.run(host="0.0.0.0", debug=True)
+    from dotenv import load_dotenv
+    load_dotenv()
+    app.run(host="0.0.0.0", port=6000, debug=True)
